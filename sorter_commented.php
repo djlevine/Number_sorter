@@ -40,6 +40,15 @@
 	* Push the last number to the ordered array (should be the largest)
 	*/
 
+	foreach ($numbers as $element) {
+	    if (!is_numeric($element)) {
+	        array_push($ordered, "Please enter numbers.");
+	        $ordered = json_encode($ordered);
+			   echo ($ordered); 
+			   exit(0); 
+	    } 
+	}
+
 	//Make sure something is in the array
 	while($numberslength > 0){
 		//If an array only has one item just push it
@@ -72,7 +81,7 @@
 			array_push($numbers, $moveToEnd); //Push it to the end
 			$numbers = array_values($numbers); //Re-evaluate it
 		}
-	//$numberslength = count($numbers); //Re-evaluate the length of numbers
+	$numberslength = count($numbers); //Re-evaluate the length of numbers
 	}
 
 	//echo "<br> Final Order: "; print_r($ordered); echo "<br> Encode as json: ";

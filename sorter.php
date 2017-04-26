@@ -14,7 +14,7 @@
 	$numberslength = count($numbers);
 	$ordered = array();
 	$counter = 1;
-	/*Use this to print step by step output to screen*/
+	/*Use this to print out to screen*/
 	function showDebugLog($arrayOne, $arrayTwo){
 		$numberslength= $GLOBALS['numberslength'];
 		$counter = $GLOBALS['counter'];
@@ -26,6 +26,17 @@
 		print_r($arrayTwo);
 		echo "<!--<br><br>Remaining Numbers: " . --$numberslength . "<br>--><hr>";
 	}
+	//showDebugLog($numbers, $ordered); //Print for debugging
+
+	foreach ($numbers as $element) {
+	    if (!is_numeric($element)) {
+	        array_push($ordered, "Please enter numbers.");
+	        $ordered = json_encode($ordered);
+			   echo ($ordered); 
+			   exit(0); 
+	    } 
+	}
+
 	/*Here's where the magic happens*/
 	while($numberslength > 0){
 		if($numberslength == 1){
@@ -40,6 +51,7 @@
 				unset($numbers[0]);
 				$numbers = array_values($numbers);
 				$counter = 1;
+				//showDebugLog($numbers, $ordered); //Print for debugging
 			}
 		}
 		else{
