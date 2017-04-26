@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Number Sorter</title>
+
+<script>
+function ajax_post() {
+	if(document.getElementById("numberField").value==""){breaker(); return;}
+	else{var numbers=document.getElementById("numberField").value;}
+
+	// Create our XMLHttpRequest object
+	var xhttp = new XMLHttpRequest();
+	//Format the URL
+	var url = "sorter.php?numbers="+numbers;
+	//alert(url); //Alert the URL for testing
+    xhttp.open("POST", url, true);
+    // Set content type header information for sending url encoded variables in the request
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    	/*Get the response data*/
+		    var return_data = xhttp.responseText;
+		    /*Parse it as JSON*/
+			obj = JSON.parse(return_data);
+			/*Blank out previously returned data*/
+			document.getElementById("returned").innerHTML = "";
+			/*For each object in the returned json
+			create a new object*/
+			var outputResult = "";
+			for (var key in obj) {
+				if (obj.hasOwnProperty(key)) {		
+					// var newElement = document.createElement('span');
+					// newElement.innerHTML = obj[key];
+					// Appened the new element, as a child
+					// document.getElementById("returned").appendChild(newElement);
+					if(key != obj.length-1){outputResult = outputResult.concat(obj[key] + ", ");}
+					else{outputResult = outputResult.concat(obj[key]);}
+					
+				}
+			}
+			document.getElementById("numberField").value = outputResult;
+	    }
+	}
+xhttp.send(); // Actually execute the request
+}
+function breaker(){document.getElementById("returned").innerHTML = "<div class=\"error\">Please enter some numbers in the box above.</div>";}
+</script>
+<style>
+	.error{
+		color:red;
+	}
+
+	#returned span:after{
+		content: ", ";
+	}
+	#returned span:last-of-type:after{
+		content: "";
+	}
+</style>
+</head>
+<body>
+	<form action="#">
+	Order numbers from least to greatest!<br>
+	Enter some numbers separated by commas <input type="text" name="numbers" id="numberField" value="5, 101, 7, 3, 54" onFocus="if(this.value=='5, 101, 7, 3, 54')this.value='';">
+	<input type="button" onclick="ajax_post(this.value);" value="Submit">
+	</form>
+	<div id="returned"></div>
+</body>
+</html>
